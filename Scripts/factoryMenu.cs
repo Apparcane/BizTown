@@ -7,55 +7,42 @@ using UnityEngine.UI;
 
 public class factoryMenu : MonoBehaviour
 {
-
-
-
+    private bool isFactoryActive = false;
     public GameObject Buton;
+    public GameObject BuyButton; // Кнопка покупки фабрики
     private float wiewTime = 15f;
 
-    public static float boxBalance = 0f; // Количество товара
-    [SerializeField]public static float incomePerSecond = 5f; // Товар пасивно в секунду
-    public float factoryLvl = 1f;
+    public static float boxBalance = 0f;
+    [SerializeField] public static float incomePerSecond = 0f; // Доход обнулён до покупки
+    public int factoryLvl = 0;
 
     public Text IncomePerSec;
-      //public Button upgradeButton;
-      public Text Lvl;
+    public Text Lvl;
+    public Text Upgrade;
 
     public float inactivityThreshold = 5f;
     private float inactivityTimer = 0f;
-
     public float inactivityThreshold1 = 2f;
     private float inactivityTimer1 = 0f;
 
-    public static float upgradePrice = 250f; // Начальная цена прокачки
-    public float priceMultiplier = 1.7f; // Множитель увеличения
+    public static float upgradePrice = 250f;
+    public float priceMultiplier = 1.7f;
     public float upgradeMultiplier = 2f;
+    public static float factoryPrice = 500f; // Цена покупки фабрики
 
     public GameObject errorText;
-
-    
-
-    private void OnMouseUpAsButton()
-    {
-        if (Buton != null)
-        {
-            Buton.SetActive(true);
-        }
-
-
-    }
+    [SerializeField] Text UpgradeBTN;
 
     private void Start()
     {
         Buton.SetActive(false);
-
+        BuyButton.SetActive(true); // Показываем кнопку покупки
         errorText.SetActive(false);
     }
 
     private void Update()
     {
         IncomePerSec.text = Mathf.FloorToInt(incomePerSecond) + " $/s";
-
         inactivityTimer += Time.deltaTime;
 
         if (inactivityTimer >= inactivityThreshold)
@@ -64,53 +51,52 @@ public class factoryMenu : MonoBehaviour
         }
 
         inactivityTimer1 += Time.deltaTime;
-
-
         if (inactivityTimer1 >= inactivityThreshold1)
         {
             errorText.SetActive(false);
         }
-
-        
-
     }
 
-    void OnMouseOver()
+    public void OuseUp()
     {
-        ResetTimer();
+        Buton.SetActive(true);       
     }
 
-    void OnTriggerEnter(Collider other)
+    public void BuyFactory()
     {
-        ResetTimer();
-    }
-
-    void OnTriggerStay(Collider other)
-    {
-        ResetTimer();
-    }
-
-    void ResetTimer()
-    {
-        inactivityTimer = 0f;
-        Buton.SetActive(true);
-    }
-
-    public void UpgradeFactoy()
-    {         
-        if (GameManager.getBalance() >= upgradePrice)
+        if (GameManager.getBalance() >= factoryPrice)
         {
-            GameManager.setBalance(GameManager.getBalance() - upgradePrice);
-            incomePerSecond *= priceMultiplier;
-            upgradePrice *= upgradeMultiplier;
-            factoryLvl ++;
+            GameManager.setBalance(GameManager.getBalance() - factoryPrice);
+            isFactoryActive = true;
+            incomePerSecond = 5f; // Начальный доход после покупки
+            BuyButton.SetActive(false); // Убираем кнопку покупки
+            UpgradeBTN.text = "Upgrade";
         }
-
-        else{
+        else
+        {
             errorText.SetActive(true);
-            Debug.Log("Ты бедность");
+            Debug.Log("Не хватает денег на фабрику");
         }
+    }
 
-        Lvl.text = Mathf.FloorToInt(factoryLvl) + " Lvl";
+    public void UpgradeFactory()
+    {
+        if (isFactoryActive)
+        {
+            if (GameManager.getBalance() >= upgradePrice)
+            {
+                GameManager.setBalance(GameManager.getBalance() - upgradePrice);
+                incomePerSecond *= priceMultiplier;
+                upgradePrice *= upgradeMultiplier;
+                factoryLvl++;
+                Lvl.text = Mathf.FloorToInt(factoryLvl) + " Lvl";
+
+            }
+            else
+            {
+                errorText.SetActive(true);
+                Debug.Log("Ты бедность");
+            }
+        }
     }
 }
