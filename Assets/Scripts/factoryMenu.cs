@@ -32,12 +32,9 @@ public class factoryMenu : MonoBehaviour
     public float upgradePrice = 250f;
     public float buyPrice = 150f;
 
+       
 
-    private void Awake()
-    {
-        errorText = GameObject.Find("ErrorText");   //Объэкты которые находяться вне префаба всей фабрики лучше искать в коде что бы не нужно было вручную их закидовать в инспекторе
-    }
-
+    
 
     private void OnMouseUpAsButton()
     {
@@ -67,6 +64,7 @@ public class factoryMenu : MonoBehaviour
     private void Start()
     {
         Buton.SetActive(false);
+
         errorText.SetActive(false);
 
         isFactoryMy = false;
@@ -92,6 +90,7 @@ public class factoryMenu : MonoBehaviour
         }
 
         Lvl.text = Mathf.FloorToInt(factoryLvl) + " Lvl";
+
 
     }
 

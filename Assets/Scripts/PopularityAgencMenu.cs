@@ -14,7 +14,6 @@ public class PopularityAgencMenu : MonoBehaviour
     public float PaidTimer = 0f;
     private float timer = 0f;
     private float popularityPerPaid = 25;
-    public float popularityMultiplier = 1f;
 
     public float inactivityThreshold = 5f;
     private float inactivityTimer = 0f;
@@ -24,11 +23,6 @@ public class PopularityAgencMenu : MonoBehaviour
     public Text UpgradePrice;
     public Text PaidPriceText;
     public Text AgencyLvlText;
-
-    private void Awake()
-    {
-        errorText = GameObject.Find("Maxtermin");   //Объэкты которые находяться вне префаба всей фабрики лучше искать в коде что бы не нужно было вручную их закидовать в инспекторе
-    }
 
     void Start()
     {
@@ -74,7 +68,6 @@ public class PopularityAgencMenu : MonoBehaviour
     AgencyLvlText.text = Mathf.FloorToInt(AgencyLvl) + " Lvl";
 
     }
-
     void ResetTimer()
     {
         inactivityTimer = 0f;

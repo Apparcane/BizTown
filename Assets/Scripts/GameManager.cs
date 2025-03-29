@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static float balance = 200000f;
+    public static float balance = 150f;
     public static float popularity = 0f;
     private float timer = 0f;
     public float incomeInterval = 1f;
@@ -20,12 +20,6 @@ public class GameManager : MonoBehaviour
 
     public float inactivityThreshold = 2f;
     private float inactivityTimer = 0f;
-
-    private void Awake()
-    {
-        balanceText = GameObject.Find("balanceText").GetComponent<Text>();          //Объэкты которые находяться вне префаба всей фабрики лучше искать в коде что бы не нужно было вручную их закидовать в инспекторе
-        PopularutyText = GameObject.Find("popularityText").GetComponent<Text>();    //Объэкты которые находяться вне префаба всей фабрики лучше искать в коде что бы не нужно было вручную их закидовать в инспекторе
-    }
     void Update()
     {
         timer += Time.deltaTime;
