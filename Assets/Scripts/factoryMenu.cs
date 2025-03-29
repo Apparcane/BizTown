@@ -117,6 +117,7 @@ public class factoryMenu : MonoBehaviour
             upgradePrice *= 2f;
             factoryLvl ++;
             ResetTimer();
+                GameObject.Find("SoundController").GetComponent<SoundController>().PlayLevelUp();
             }
         
         else{
@@ -139,7 +140,8 @@ public class factoryMenu : MonoBehaviour
             BuyButton.SetActive(false);
             dollar.GetComponent<MeshRenderer>().material.color = Color.green;
             ResetTimer();
-            }
+            GameObject.Find("SoundController").GetComponent<SoundController>().PlayItemPurchase();
+        }
         else{
             errorText.SetActive(true);
         } 

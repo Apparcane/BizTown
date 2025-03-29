@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static float balance = 150f;
+    public static float balance = 700f;
     public static float popularity = 0f;
     private float timer = 0f;
     public float incomeInterval = 1f;
@@ -34,20 +34,25 @@ public class GameManager : MonoBehaviour
     }
     void AddIncome()
     {
-    float totalIncome = 0f;
+        float totalIncome = 0f;
     
-    factoryMenu[] factories = FindObjectsOfType<factoryMenu>();
-    foreach (factoryMenu factory in factories)
-    {
-        totalIncome += factory.incomePerSecond;
-    }
-
-    balance += totalIncome;
-
-        if (balanceText != null)
+        factoryMenu[] factories = FindObjectsOfType<factoryMenu>();
+        foreach (factoryMenu factory in factories)
         {
-            balanceText.text = Mathf.FloorToInt(balance) + "$";
+            totalIncome += factory.incomePerSecond;
         }
+
+        if(popularity > 0)
+        {
+           totalIncome += (totalIncome * (popularity / 100)) * GameObject.Find("Agency1").GetComponent<PopularityAgencMenu>().AgencyLvl;
+        }
+
+        balance += totalIncome;
+
+            if (balanceText != null)
+            {
+                balanceText.text = Mathf.FloorToInt(balance) + "$";
+            }
     }
 }
 
